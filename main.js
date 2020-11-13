@@ -4,6 +4,29 @@ const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
 
+let articleHearts = document.querySelectorAll(".like");
+
+
+function like(e) {
+  let heart = e.target;
+  mimicServerCall("fakeUrl")
+  .then(function(serverMessage){
+    if (heart.innerText === EMPTY_HEART) {
+      heart.innerText = FULL_HEART;
+      heart.style.color = "red";
+    } else if (heart.innerText === FULL_HEART) {
+      heart.innerText = EMPTY_HEART;
+      heart.style.color = "";
+    };
+  })
+  .catch(function(error) {
+    alert("Massive error!")
+  });
+}
+
+for (let glyph of articleHearts) {
+  glyph.addEventListener("click", like);
+}
 
 
 
