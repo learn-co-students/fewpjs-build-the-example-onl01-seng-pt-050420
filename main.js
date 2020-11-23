@@ -2,45 +2,37 @@
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
-// Your JavaScript code goes here!
-// hide error modal
-const modal = document.getElementById('modal');
-
-
-
-let filledOrNot = {
+let glyphStates = {
   "♡": "♥",
   "♥": "♡"
 };
 
-let colorChange = {
+let colorStates = {
   "red" : "",
   "": "red"
 };
 
-const hearts = document.querySelectorAll("ul > li > span")
-for(let heart of hearts){
-  heart.addEventListener('click', like);
-};
+let articleHearts = document.querySelectorAll(".like");
 
-function like(e){
-  mimicServerCall("http://changeaheart.com")
-  .then(rsp => changeHeart(e))
-  .catch((error) => {
-    setTimeout(function(){
-      modal.className = ""
-      msg = modal.children[1];
-      msg.innerText = "Something went wrong.";
-    }, 5000)
+function likeCallback(e) {
+  let heart = e.target;
+  mimicServerCall("bogusUrl")
+   //OR: mimicServerCall("bogusUrl", {forceFailure: true})
+    .then(function(serverMessage){
+       heart.innerText = glyphStates[heart.innerText];
+       heart.style.color = colorStates[heart.style.color];
+    })
+    .catch(function(error) {
+      // Basic
+      // alert("Something went wrong!");
+      // or....
+      document.getElementById("modal").className = "";
+    });
+}
 
-  });
-};
-
-function changeHeart(e){
-  heart = e.target;
-  heart.innerText = filledOrNot[heart.innerText];
-  heart.style.color = colorChange[heart.style.color];
-};
+for (let glyph of articleHearts) {
+  glyph.addEventListener("click", likeCallback);
+}
 //------------------------------------------------------------------------------
 // Ignore after this point. Used only for demo purposes
 //------------------------------------------------------------------------------
