@@ -13,27 +13,32 @@ let colorStates = {
   "red" : "",
   "": "red"
 };
+const err = document.getElementById("modal")
+err.setAttribute("class", "hidden")
 
-let articleHearts = document.querySelectorAll(".like");
+let hearts = document.querySelectorAll(".like-glyph");
 
 function likeCallback(e) {
   let heart = e.target;
-  mimicServerCall("bogusUrl")
+  mimicServerCall(e)
    //OR: mimicServerCall("bogusUrl", {forceFailure: true})
     .then(function(serverMessage){
-       heart.innerText = glyphStates[heart.innerText];
-       heart.style.color = colorStates[heart.style.color];
+       heart.innerText = FULL_HEART
+ heart.style.color = colorStates[heart.style.color];
     })
     .catch(function(error) {
       // Basic
       alert("Something went wrong!");
       // or....
-      let modal = document.getElementById("modal").className = ".hidden";
-      modal.innerText = error.message;
-    });
-}
+      err.className = ""
+      setTimeout(() => {
+        err.className = "hidden"
+      }, 5000);
+      })
+    }
+  
 
-for (let glyph of articleHearts) {
+for ( glyph of hearts) {
   glyph.addEventListener("click", likeCallback);
 }
 
