@@ -4,7 +4,31 @@ const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
 
+let errorModal = document.getElementById("modal")
+errorModal.className = "hidden"
 
+document.addEventListener("DOMContentLoaded", () => {
+
+  let hearts = document.getElementsByClassName("like")
+  for (let i=0; i<hearts.length; i++) {
+    hearts[i].addEventListener("click", function() { 
+      mimicServerCall().then(function(res) {
+        let heartIcon = hearts[i].getElementsByTagName("span")[0]
+        console.log('heart', heartIcon)
+        if (heartIcon.innerHTML === EMPTY_HEART) {
+          heartIcon.innerHTML = FULL_HEART
+          heartIcon.className = "activated-heart"
+        } else {
+          heartIcon.innerHTML = EMPTY_HEART
+          heartIcon.classList.remove("activated-heart")
+        }
+      }).catch(function(err) {
+        errorModal.classList.remove("hidden")
+        setTimeout(function(){ errorModal.className = "hidden"; }, 5000);
+      })
+    })
+  }
+});
 
 
 //------------------------------------------------------------------------------
