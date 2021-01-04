@@ -4,6 +4,28 @@ const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
 
+addHiddenClass();
+let articleHearts = document.querySelectorAll(".like");
+for (const glyph of articleHearts) {
+    glyph.addEventListener("click", likeCallBack);
+}
+
+function addHiddenClass() {
+    document.getElementById("modal").classList.add("hidden")
+}
+
+function likeCallBack(e) {
+    let heart = e.target;
+    mimicServerCall().then(resp => {
+        heart.innerText = FULL_HEART
+        heart.className = "activated-heart"
+    }).catch(error => {
+        document.getElementById("modal").className = ""
+        setTimeout(addHiddenClass, 5 * 1000, error)
+    })
+
+}
+
 
 
 
