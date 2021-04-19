@@ -5,7 +5,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
   modal.hidden = true; 
 
  })
- 
+
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
@@ -26,12 +26,13 @@ function likeCallback(e) {
   let heart = e.target;
   mimicServerCall("fakeUrl", {forceFailure: true})
   .then(function(serverMessage){
+    alert("You notified the server!");
+    alert(serverMessage);
     heart.innerText = glyphStates[heart.innerText];
     heart.style.color = colorStates[heart.style.color];
   })
   .catch(function(error){
     document.getElementById("modal").className = ""
-    message.innerText = error
     modal.classList.remove("hidden")
     window.setTimeout(() => {
           modal.className = "hidden"
